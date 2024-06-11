@@ -1,0 +1,29 @@
+新しいReactプロジェクトを作成
+1. npx create-react-app react-testing-example --template typescript
+
+2. 依存関係のインストール
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+npm install --save-dev cypress
+npm install --save-dev @playwright/test
+
+JestとReact Testing Libraryの設定
+3. npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+
+4. package.jsonのスクリプトを追加
+"scripts": {
+  "test:jest": "jest"
+},
+
+
+5. Cypress 初期化
+npx cypress open
+
+
+Jestテストの実行
+npm run test:jest
+
+Cypressテストの実行
+npx cypress open
+
+Playwrightテストの実行
+npx playwright test
