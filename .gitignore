@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/__tests__/__snapshots__/
+/__tests__/__image_snapshots__/
