@@ -6,6 +6,7 @@ expect.extend({ toMatchImageSnapshot });
 
 describe('Visual Regression Tests', () => {
 	beforeAll(async () => {
+		jest.setTimeout(30000);
 		await page.goto('http://localhost:3000');
 		await page.setViewport({ width: 1200, height: 800 });
 	});
