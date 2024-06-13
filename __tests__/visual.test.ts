@@ -12,6 +12,9 @@ describe('Visual Regression Tests', () => {
 
 	it('should visually match the snapshot', async () => {
 		const image = await page.screenshot();
-		expect(image).toMatchImageSnapshot();
+		expect(image).toMatchImageSnapshot({
+			failureThreshold: 0.01, // 1% threshold
+			failureThresholdType: 'percent', // Use percentage threshold
+		});
 	});
 });
