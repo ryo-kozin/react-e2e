@@ -22,6 +22,6 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --parallel
+        run: npm run test -- --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
