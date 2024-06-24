@@ -21,7 +21,8 @@
 		"eject": "react-scripts eject",
 		"cy:open": "cypress open",
 		"cy:run": "dotenv -- cypress run --record --key=$CYPRESS_RECORD_KEY",
-		"test": "start-server-and-test start 3000 cy:run"
+		"test": "start-server-and-test start 3000 cy:run",
+		"prepare": "husky"
 	},
 	"eslintConfig": {
 		"extends": [
