@@ -18,10 +18,9 @@ jobs:
         with:
           node-version: '16.20.2'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Cypress tests
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        run: npm run test
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: yarn start
+          wait-on: 'http://127.0.0.1:3000'
+          group: 'sample-test'
