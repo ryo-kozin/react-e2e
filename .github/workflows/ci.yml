@@ -25,4 +25,4 @@ jobs:
         with:
           start: yarn start
           wait-on: 'http://127.0.0.1:3000'
-          cache-key: ${{ runner.os }}-cypress-${{ hashFiles('**/yarn.lock') }}-
+          cache-key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}-
