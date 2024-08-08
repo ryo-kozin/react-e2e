@@ -25,21 +25,24 @@ jobs:
 
       - name: Cache NPM dependencies
         id: npm-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: |
+            ~/.npm
+            ~/.cache/Cypress
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
 
       - name: Install Dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          install: false
-          start: npm start
-          wait-on: 'http://127.0.0.1:3000'
-          cache-key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}-
+      - name: Start Application
+        run: npm start &
+
+      - name: Wait for application to start
+        run: npx wait-on http://127.0.0.1:3000
+
+      - name: Run Cypress tests
+        run: npx cypress run
