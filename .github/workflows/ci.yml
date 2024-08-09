@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    if: (github.event_name != 'pull_request' || github.event.pull_request.merged == false)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache fonts
+        id: cache-fonts
+        uses: actions/cache@v4
+        with:
+          path: ~/.fonts
+          key: ${{ runner.os }}-fonts-noto-
+          restore-keys: |
+            ${{ runner.os }}-fonts-noto-
+
+      - name: Install fonts-noto
+        if: steps.cache-fonts.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.fonts
+          sudo apt update
+          sudo apt install -y fonts-noto
+          cp -r /usr/share/fonts/truetype/noto ~/.fonts
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16.20.2'
+
+      - name: Cache NPM dependencies
+        id: npm-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+            ~/.cache/Cypress
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install --prefer-offline --no-audit
+
+      - name: Start Application
+        run: npm start &
+
+      - name: Wait for application to start
+        run: npx wait-on http://127.0.0.1:3000
+
+      - name: Run Cypress tests
+        run: npx cypress run
