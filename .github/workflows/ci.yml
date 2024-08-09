@@ -19,14 +19,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Restore or Save Cache – Font Noto
-        id: cache-font-noto
+        id: cache-fonts-noto
         uses: actions/cache@v4
         with:
           path: /usr/share/fonts/opentype/noto
           key: ${{ runner.os }}-font-noto-
 
       - name: Install fonts-noto
-        if: steps.cache-font-noto.outputs.cache-hit != 'true'
+        if: steps.cache-fonts-noto.outputs.cache-hit != 'true'
         run: sudo apt install -y fonts-noto-cjk
 
       - name: Setup Node.js
